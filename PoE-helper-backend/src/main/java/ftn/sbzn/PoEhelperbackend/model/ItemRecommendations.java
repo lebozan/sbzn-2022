@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -43,5 +44,17 @@ public class ItemRecommendations {
         this.beltSelected = false;
         this.mainHandSelected = false;
         this.offHandSelected = false;
+        this.helmetMods = new ArrayList<>();
+        this.bodyArmourMods = new ArrayList<>();
+        this.glovesMods = new ArrayList<>();
+        this.bootsMods = new ArrayList<>();
+        this.ring1Mods = new ArrayList<>();
+        this.ring2Mods = new ArrayList<>();
+        this.amuletMods = new ArrayList<>();
+        this.beltMods = new ArrayList<>();
+        this.mainHandMods = new ArrayList<>();
+        this.offHandMods = new ArrayList<>();
+
+
     }
 }

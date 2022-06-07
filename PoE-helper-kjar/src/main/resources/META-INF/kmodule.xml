@@ -2,6 +2,6 @@
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
     <kbase name="rules" packages="rules">
         <ksession default="true" name="ksession-rules"/>
-        <ksession name="test-rules" type="stateless" />
+<!--        <ksession name="test-rules" />-->
     </kbase>
 </kmodule>

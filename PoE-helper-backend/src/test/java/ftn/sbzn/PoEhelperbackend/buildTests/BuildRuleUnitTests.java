@@ -1,6 +1,7 @@
 package ftn.sbzn.PoEhelperbackend.buildTests;
 
 import ftn.sbzn.PoEhelperbackend.model.Build;
+import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
 import ftn.sbzn.PoEhelperbackend.model.Tag;
 import org.junit.Test;
 import org.kie.api.KieServices;
@@ -11,6 +12,7 @@ import org.kie.api.runtime.rule.AgendaFilter;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class BuildRuleUnitTests {
@@ -24,21 +26,27 @@ public class BuildRuleUnitTests {
         kScanner.start(10_000);
         KieSession session = kContainer.newKieSession("ksession-rules");
         AgendaFilter filter = match -> {
-            return match.getRule().getName().equals("Collect all tags");
+            return match.getRule().getName().equals("Cold damage type");
         };
         Tag t1 = new Tag();
-        t1.setName("Cold");
+        t1.setName("Fire");
+        Tag t2 = new Tag("Physical");
         Build b = new Build();
+        ItemRecommendations items = new ItemRecommendations();
 //        Set<String> tags = new HashSet<>();
 //        b.setTags(tags);
 //        tags.add()
 
         session.insert(t1);
+        session.insert(t2);
+        session.insert(items);
         session.insert(b);
-        session.getAgenda().getAgendaGroup("build").setFocus();
-        long count = session.fireAllRules(filter);
+//        session.getAgenda().getAgendaGroup("build").setFocus();
+        long count = session.fireAllRules();
 
-//        assertNotNull(b.getTags());
-        assertEquals(1L, count);
+        assertNotNull(count);
+//        assertEquals(3L, count);
     }
+
+
 }

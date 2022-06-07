@@ -4,7 +4,7 @@ import java.util.Set;
 
 rule "Collect all tags"
 salience 1
-agenda-group "build"
+//agenda-group "build"
 when
    $tags: Set()
         from accumulate( Tag( $n: name),
@@ -14,11 +14,13 @@ when
 then
     $b.setTags($tags);
     update($b);
+    System.out.println( "dodati tagovi" );
+    System.out.println($b.getTags());
 end
 
 rule "Bleed damage type"
 salience 10
-agenda-group "build"
+//agenda-group "build"
 when
     not (Tag( name == "Elemental" ))
     not (Tag( name == "Chaos"))
@@ -28,11 +30,12 @@ when
 then
     $b.setDamageType("Bleed");
     update($b);
+    System.out.println($b.getDamageType());
 end
 
 rule "Poison damage type"
 salience 10
-agenda-group "build"
+//agenda-group "build"
 when
     Tag( name == "Chaos")
     Tag(name == "Duration")
@@ -40,61 +43,68 @@ when
 then
     $b.setDamageType("Poison");
     update($b);
+    System.out.println($b.getDamageType());
 end
 
 rule "Fire damage type"
 salience 10
-agenda-group "build"
+//agenda-group "build"
 when
     Tag(name == "Fire")
     $b: Build()
 then
     $b.setDamageType("Fire");
     update($b);
+    System.out.println($b.getDamageType());
 end
 
 
 rule "Cold damage type"
 salience 10
-agenda-group "build"
+//agenda-group "build"
 when
     Tag( name == "Cold")
     $b: Build()
 then
     $b.setDamageType("Cold");
     update($b);
+    System.out.println($b.getDamageType());
 end
 
 
 rule "Lightning damage type"
 salience 10
-agenda-group "build"
+//agenda-group "build"
 when
     Tag( name == "Lightning")
     $b: Build()
 then
     $b.setDamageType("Lightning");
     update($b);
+    System.out.println($b.getDamageType());
 end
 
 rule "Physical damage type"
 salience 20
-agenda-group "build"
+//agenda-group "build"
 when
     Tag( name == "Physical")
     $b: Build()
 then
     $b.setDamageType("Physical");
     update($b);
+    System.out.println($b.getDamageType());
 end
 
 
 rule "Ailment tag"
 salience 10
-agenda-group "build"
+//agenda-group "build"
 when
     Tag(name == "Physical" || name == "Cold" || name == "Fire" || name == "Chaos")
     Tag(name == "Duration")
 then
     insert(new Tag("Ailment"));
 end
+
+
