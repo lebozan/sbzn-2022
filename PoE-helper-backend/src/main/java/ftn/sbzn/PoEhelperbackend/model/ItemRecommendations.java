@@ -22,16 +22,16 @@ public class ItemRecommendations {
     private boolean mainHandSelected;
     private boolean offHandSelected;
 
-    private List<String> helmetMods;
-    private List<String> bodyArmourMods;
-    private List<String> glovesMods;
-    private List<String> bootsMods;
-    private List<String> ring1Mods;
-    private List<String> ring2Mods;
-    private List<String> amuletMods;
-    private List<String> beltMods;
-    private List<String> mainHandMods;
-    private List<String> offHandMods;
+    private Item helmetMods;
+    private Item bodyArmourMods;
+    private Item glovesMods;
+    private Item bootsMods;
+    private Item ring1Mods;
+    private Item ring2Mods;
+    private Item amuletMods;
+    private Item beltMods;
+    private Item mainHandMods;
+    private Item offHandMods;
 
     public ItemRecommendations() {
         this.helmetSelected = false;
@@ -44,17 +44,16 @@ public class ItemRecommendations {
         this.beltSelected = false;
         this.mainHandSelected = false;
         this.offHandSelected = false;
-        this.helmetMods = new ArrayList<>();
-        this.bodyArmourMods = new ArrayList<>();
-        this.glovesMods = new ArrayList<>();
-        this.bootsMods = new ArrayList<>();
-        this.ring1Mods = new ArrayList<>();
-        this.ring2Mods = new ArrayList<>();
-        this.amuletMods = new ArrayList<>();
-        this.beltMods = new ArrayList<>();
-        this.mainHandMods = new ArrayList<>();
-        this.offHandMods = new ArrayList<>();
-
+        this.helmetMods = new Item();
+        this.bodyArmourMods = new Item();;
+        this.glovesMods = new Item();;
+        this.bootsMods = new Item();;
+        this.ring1Mods = new Item();;
+        this.ring2Mods = new Item();;
+        this.amuletMods = new Item();;
+        this.beltMods = new Item();;
+        this.mainHandMods = new Item();;
+        this.offHandMods = new Item();;
 
     }
 }

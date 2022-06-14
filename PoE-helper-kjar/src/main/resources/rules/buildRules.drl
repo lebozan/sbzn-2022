@@ -22,7 +22,9 @@ rule "Bleed damage type"
 salience 10
 //agenda-group "build"
 when
-    not (Tag( name == "Elemental" ))
+    not (Tag( name == "Fire" ))
+    not (Tag( name == "Cold" ))
+    not (Tag( name == "Lightning" ))
     not (Tag( name == "Chaos"))
     Tag(name == "Physical")
     Tag(name == "Duration")
@@ -97,14 +99,14 @@ then
 end
 
 
-rule "Ailment tag"
-salience 10
-//agenda-group "build"
-when
-    Tag(name == "Physical" || name == "Cold" || name == "Fire" || name == "Chaos")
-    Tag(name == "Duration")
-then
-    insert(new Tag("Ailment"));
-end
+//rule "Ailment tag"
+//salience 10
+////agenda-group "build"
+//when
+//    Tag(name == "Physical" || name == "Cold" || name == "Fire" || name == "Chaos")
+//    Tag(name == "Duration")
+//then
+//    insert(new Tag("Ailment"));
+//end
 
 

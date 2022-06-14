@@ -18,7 +18,7 @@ export class FirstEntryComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private dateService: AllDataService,
+    private dataService: AllDataService,
     private fb: FormBuilder,
   ) {
     this.form = this.fb.group({
@@ -36,7 +36,7 @@ export class FirstEntryComponent implements OnInit {
     console.log(this.form.value.selectedActiveGems);
     console.log(this.form.value.selectedSupportGems);
     console.log(this.form.value.selectedKeystones);
-    var firstEntryData = {
+    const firstEntryData = {
       skillSetup: [],
       keystones: this.form.value.selectedKeystones,
       weaponType: this.form.value.selectedWeapon
@@ -46,14 +46,19 @@ export class FirstEntryComponent implements OnInit {
     firstEntryData.skillSetup.push.apply(firstEntryData.skillSetup, this.form.value.selectedSupportGems);
 
     // console.log(firstEntryData);
-    this.dateService.sendFirstEntry(firstEntryData).subscribe(
+    this.dataService.sendFirstEntry(firstEntryData).subscribe(
       result => {
         console.log(result);
+        sessionStorage.setItem('buildId', result.id);
         this.changeTab.emit(true);
       }, error => {
         console.log(error);
       }
    );
+  }
+
+  weaponSelected(): void {
+    console.log(this.form.value.selectedWeapon);
   }
 
 }

@@ -43,7 +43,7 @@ public class BuildRuleUnitTests {
         session.insert(b);
 //        session.getAgenda().getAgendaGroup("build").setFocus();
         long count = session.fireAllRules();
-
+        System.out.println(items.getHelmetMods().getSuffixes());
         assertNotNull(count);
 //        assertEquals(3L, count);
     }

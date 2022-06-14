@@ -51,6 +51,7 @@ public class UserInputController {
         try {
             Build newBuild = new Build();
             newBuild.setId(sequenceGeneratorService.generateSequence(Build.SEQUENCE_NAME));
+            newBuild.setWeaponType(firstEntryDTO.getWeaponType());
             for (String gem : firstEntryDTO.getSkillSetup()) {
                 Optional<SkillGem> skillGem = skillGemService.getByName(gem);
                 SkillGem sg = skillGem.orElseThrow();
@@ -72,7 +73,7 @@ public class UserInputController {
             kieSession.getAgenda().getAgendaGroup("collect").setFocus();
             kieSession.fireAllRules();
 
-            System.out.println(kieSession.getFactCount());
+//            System.out.println(kieSession.getFactCount());
 
             newBuild = buildService.save(newBuild);
 
@@ -128,6 +129,9 @@ public class UserInputController {
         }
         kieSession.insert(itemRecommendations);
         Build b = build.get();
+        for (String tag: b.getTags()) {
+            kieSession.insert(new Tag(tag));
+        }
         kieSession.insert(b);
         kieSession.fireAllRules();
         return new ResponseEntity<>(itemRecommendations, HttpStatus.OK);

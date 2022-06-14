@@ -2,14 +2,16 @@ package rules;
 
 import ftn.sbzn.PoEhelperbackend.model.Tag;
 import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
+import ftn.sbzn.PoEhelperbackend.model.Item;
 
 rule "- fire resistance"
 when
 	Tag( name == "Fire" )
-	$items: ItemRecommendations( helmetMods.size < 6)
+	$items: ItemRecommendations( helmetMods.suffixes.size < 3)
 
 then
-    $items.getHelmetMods().add("suffix:Nearby Enemies have -9% to Fire Resistance");
+    $items.getHelmetMods().getSuffixes().add("Nearby Enemies have -#% to Fire Resistance");
     System.out.println("helm suffix added");
 end	
+
 
