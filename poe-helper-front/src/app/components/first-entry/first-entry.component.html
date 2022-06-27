@@ -36,12 +36,19 @@
     </mat-select>
   </mat-form-field>
 
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Keystone</mat-label>-->
+<!--    <mat-select formControlName="selectedKeystones" multiple>-->
+<!--      <mat-option *ngFor="let key of keystonesList" [value]="key.name">{{key.name}}</mat-option>-->
+<!--    </mat-select>-->
+<!--  </mat-form-field>-->
   <mat-form-field appearance="fill">
-    <mat-label>Keystone</mat-label>
-    <mat-select formControlName="selectedKeystones" multiple>
-      <mat-option *ngFor="let key of keystonesList" [value]="key.name">{{key.name}}</mat-option>
+    <mat-label>Build Archetype</mat-label>
+    <mat-select formControlName="selectedArchetype">
+      <mat-option *ngFor="let type of archetypes" [value]="type">{{type}}</mat-option>
     </mat-select>
   </mat-form-field>
+
 
   <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid">Submit</button>
 </form>

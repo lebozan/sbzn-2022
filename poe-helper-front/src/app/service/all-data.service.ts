@@ -14,6 +14,10 @@ export class AllDataService {
     return this.http.get('api/api/data/activeGems');
   }
 
+  getAllNonAuraActiveGems(): Observable<any> {
+    return this.http.get('api/api/data/activeNonAuraGems');
+  }
+
   getAllSupportGems(): Observable<any> {
     return this.http.get('api/api/data/supportGems');
   }

@@ -16,6 +16,7 @@ export class FirstEntryComponent implements OnInit {
   @Input() keystonesList: Array<Keystone> | undefined;
   @Output() changeTab = new EventEmitter<boolean>();
   form: FormGroup;
+  archetypes = ["Intelligence stacking", "Strength stacking", "Dexterity stacking", "Accuracy stacking"];
 
   constructor(
     private dataService: AllDataService,
@@ -25,6 +26,7 @@ export class FirstEntryComponent implements OnInit {
       selectedActiveGems : ['', Validators.required],
       selectedSupportGems : [[], Validators.required],
       selectedKeystones : [[]],
+      selectedArchetype : [''],
       selectedWeapon : [null, Validators.required]
     });
   }
@@ -39,7 +41,8 @@ export class FirstEntryComponent implements OnInit {
     const firstEntryData = {
       skillSetup: [],
       keystones: this.form.value.selectedKeystones,
-      weaponType: this.form.value.selectedWeapon
+      weaponType: this.form.value.selectedWeapon,
+      buildType: this.form.value.selectedArchetype
     }
     // @ts-ignore
     firstEntryData.skillSetup.push(this.form.value.selectedActiveGems);

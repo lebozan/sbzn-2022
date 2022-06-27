@@ -1,0 +1,105 @@
+package rules;
+
+import ftn.sbzn.PoEhelperbackend.model.Tag;
+import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
+import ftn.sbzn.PoEhelperbackend.model.Item;
+import ftn.sbzn.PoEhelperbackend.model.Build;
+
+rule "attack speed"
+no-loop true
+when
+    Tag( name== "Attack")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getGlovesMods().getSuffixes().add("#% increased Attack Speed");
+end
+
+rule "intimidate on hit"
+no-loop true
+when
+    Tag( name == "Attack")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.prefixes.size < 3)
+then
+    $items.getGlovesMods().getPrefixes().add("#% chance to Intimidate Enemies for # seconds on Hit");
+end
+
+rule "unnerve on hit"
+no-loop true
+when
+    Tag( name == "Spell")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.prefixes.size < 3)
+then
+    $items.getGlovesMods().getPrefixes().add("#% chance to Unnerve Enemies for # seconds on Hit");
+end
+
+
+rule "strike additional target"
+no-loop true
+when
+    Tag( name == "Strike")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.prefixes.size < 3)
+then
+    $items.getGlovesMods().getPrefixes().add("Strike Skills target # additional nearby Enemy");
+end
+
+rule "fire dot multi"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Fire")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getGlovesMods().getSuffixes().add("#% to Fire Damage over Time Multiplier");
+
+end
+
+rule "cold dot multi"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Cold")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getGlovesMods().getSuffixes().add("#% to Cold Damage over Time Multiplier");
+
+end
+
+rule "phys dot multi"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Physical" || damageType == "Bleed")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getGlovesMods().getSuffixes().add("#% to Physical Damage over Time Multiplier");
+
+end
+
+rule "chaos dot multi"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Chaos" || damageType == "Poison")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getGlovesMods().getSuffixes().add("#% to Chaos Damage over Time Multiplier");
+
+end
+
+rule "damage during flask"
+no-loop true
+when
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.prefixes.size < 3)
+then
+    $items.getGlovesMods().getPrefixes().add("#% increased Damage during any Flask Effect");
+
+end
+
+rule "+ to accuracy gloves"
+no-loop true
+when
+    $b: Build( archetype == "Accuracy stacking")
+    $items: ItemRecommendations( glovesSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getGlovesMods().getSuffixes().add("# to Accuracy Rating");
+end

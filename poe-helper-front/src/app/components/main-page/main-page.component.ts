@@ -26,7 +26,7 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataService.getAllActiveGems().subscribe(
+    this.dataService.getAllNonAuraActiveGems().subscribe(
       result => {
         if (result !== null) {
           this.activeGems = result;

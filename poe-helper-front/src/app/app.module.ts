@@ -18,31 +18,35 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {CommonModule} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
+import { RecommendationPageComponent } from './components/recommendation-page/recommendation-page.component';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     FirstEntryComponent,
-    SecondEntryComponent
+    SecondEntryComponent,
+    RecommendationPageComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NoopAnimationsModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatButtonModule,
-    FormsModule,
-    MatButtonToggleModule,
-    CommonModule,
-    MatTableModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NoopAnimationsModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatButtonModule,
+        FormsModule,
+        MatButtonToggleModule,
+        CommonModule,
+        MatTableModule,
+        MatListModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

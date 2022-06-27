@@ -1,27 +1,94 @@
 
-<ng-container>
-  <img src="assets/poe-slots-test.png" usemap="#image-map" class="slots-img">
-
-  <!--  <div [ngClass]="[ isSelected ? 'selected-area' : 'not-selected-area']" (click)="selected('mainhand')" id="mainhand"></div>-->
+<ng-container *ngIf="!recommendationsReady">
+  <svg width="1000" height="600" xmlns="http://www.w3.org/2000/svg">
+    <image href="assets/poe-slots-test.png" class="slots-img" height="100%" width="100%"/>
+<!--    <rect [ngClass]="isSelected[0] ? 'selected' : ''" class="hoverable" x="65" y="55" width="175" height="330" (click)="selected('main hand')"/>-->
+<!--    <rect [ngClass]="isSelected[1] ? 'selected' : ''" class="hoverable" x="745" y="55" width="175" height="330" (click)="selected('offhand')"/>-->
+    <rect [ngClass]="isSelected[2] ? 'selected' : ''" class="hoverable" x="410" y="30" width="165" height="165" (click)="selected('helmet')"/>
+    <rect [ngClass]="isSelected[3] ? 'selected' : ''" class="hoverable" x="410" y="222" width="165" height="250" (click)="selected('body armour')"/>
+    <rect [ngClass]="isSelected[4] ? 'selected' : ''" class="hoverable" x="620" y="200" width="80" height="80" (click)="selected('amulet')"/>
+    <rect [ngClass]="isSelected[5] ? 'selected' : ''" class="hoverable" x="280" y="310" width="80" height="80" (click)="selected('ring1')"/>
+    <rect [ngClass]="isSelected[6] ? 'selected' : ''" class="hoverable" x="620" y="310" width="80" height="80" (click)="selected('ring2')"/>
+    <rect [ngClass]="isSelected[7] ? 'selected' : ''" class="hoverable" x="200" y="420" width="160" height="160" (click)="selected('gloves')"/>
+    <rect [ngClass]="isSelected[8] ? 'selected' : ''" class="hoverable" x="625" y="420" width="160" height="160" (click)="selected('boots')"/>
+    <rect [ngClass]="isSelected[9] ? 'selected' : ''" class="hoverable" x="410" y="500" width="165" height="80" (click)="selected('belt')"/>
+  </svg>
   <button mat-raised-button color="primary" (click)="sendSelection()">Send</button>
-  <!--  <mat-button-toggle class="gloves-toggle" value="bold">Main Hand</mat-button-toggle>-->
 </ng-container>
 
-<div *ngFor="let item in selectedEquipment">
-  <button mat-raised-button > {{item}}</button>
-</div>
-
-<map name="image-map">
-  <area target="" alt="main-hand" title="main-hand" coords="223,411,42,50" href="javascript:void(0)" shape="rect" (click)="selected('mainhand')">
-  <area target="" alt="gloves" title="gloves" coords="178,447,351,618" href="javascript:void(0)" shape="rect" (click)="selected('gloves')">
-  <area target="" alt="belt" title="belt" coords="407,541,578,617" href="javascript:void(0)" shape="rect" (click)="selected('belt')">
-  <area target="" alt="ring1" title="ring1" coords="272,330,351,409" href="javascript:void(0)" shape="rect" (click)="selected('ring1')">
-  <area target="" alt="ring2" title="ring2" coords="633,330,713,409" href="javascript:void(0)" shape="rect" (click)="selected('ring2')">
-  <area target="" alt="helmet" title="helmet" coords="401,30,582,208" href="javascript:void(0)" shape="rect" (click)="selected('helmet')">
-  <area target="" alt="boots" title="boots" coords="630,447,806,618" href="javascript:void(0)" shape="rect" (click)="selected('boots')">
-  <area target="" alt="amulet" title="amulet" coords="630,216,721,302" href="javascript:void(0)" shape="rect" (click)="selected('amulet')">
-  <area target="" alt="off-hand" title="off-hand" coords="764,54,945,414" href="javascript:void(0)" shape="rect" (click)="selected('offhand')">
-  <area target="" alt="body-armour" title="body-armour" coords="405,238,582,509" href="javascript:void(0)" shape="rect" (click)="selected('body armour')">
-</map>
+<ng-container *ngIf="recommendationsReady">
+  <mat-tab-group class="tabs">
+    <mat-tab label="helmet" *ngIf="recommendations.helmetSelected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.helmetMods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.helmetMods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="body armour" *ngIf="recommendations.bodyArmourSelected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.bodyArmourMods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.bodyArmourMods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="gloves" *ngIf="recommendations.glovesSelected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.glovesMods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.glovesMods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="boots" *ngIf="recommendations.bootsSelected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.bootsMods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.bootsMods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="amulet" *ngIf="recommendations.amuletSelected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.amuletMods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.amuletMods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="ring1" *ngIf="recommendations.ring1Selected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.ring1Mods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.ring1Mods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="ring2" *ngIf="recommendations.ring2Selected">
+      <mat-label>prefixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.ring2Mods.prefixes">{{mods}}</mat-list-item>
+      </mat-list>
+      <mat-label>suffixes</mat-label>
+      <mat-list>
+        <mat-list-item *ngFor="let mods of recommendations.ring2Mods.suffixes">{{mods}}</mat-list-item>
+      </mat-list>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
 
 

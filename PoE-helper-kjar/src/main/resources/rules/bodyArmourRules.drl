@@ -1,0 +1,58 @@
+package rules;
+
+import ftn.sbzn.PoEhelperbackend.model.Tag;
+import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
+import ftn.sbzn.PoEhelperbackend.model.Item;
+import ftn.sbzn.PoEhelperbackend.model.Build;
+
+rule "% increased mana"
+no-loop true
+when
+    $items: ItemRecommendations( bodyArmourMods.prefixes.size < 3, bodyArmourSelected == true)
+    $build: Build( supportGems contains "Archmage Support")
+
+then
+    $items.getBodyArmourMods().getPrefixes().add("#% increased maximum Mana");
+end
+
+rule "explode"
+no-loop true
+when
+    $items: ItemRecommendations( bodyArmourMods.prefixes.size < 3, bodyArmourSelected == true)
+    $build: Build( damageType == "Physical")
+
+then
+    $items.getBodyArmourMods().getPrefixes().add("Enemies you Kill have a #% chance to Explode, dealing a tenth of their maximum Life as Physical Damage");
+end
+
+
+rule "additional curse"
+no-loop true
+when
+    $items: ItemRecommendations( bodyArmourSelected == true, bodyArmourMods.prefixes.size < 3)
+then
+    $items.getBodyArmourMods().getPrefixes().add("You can apply an additional Curse");
+end
+
+rule "base attack crit"
+no-loop true
+when
+    Tag( name == "Attack")
+    Tag( name == "Critical")
+    $items: ItemRecommendations( bodyArmourSelected == true, bodyArmourMods.suffixes.size < 3)
+
+then
+    $items.getBodyArmourMods().getSuffixes().add("Attacks have #% to Critical Strike Chance");
+end
+
+
+rule "base spell crit"
+no-loop true
+when
+    Tag( name == "Spell")
+    Tag( name == "Critical")
+    $items: ItemRecommendations( bodyArmourSelected == true, bodyArmourMods.suffixes.size < 3)
+
+then
+    $items.getBodyArmourMods().getSuffixes().add("#% to Spell Critical Strike Chance");
+end

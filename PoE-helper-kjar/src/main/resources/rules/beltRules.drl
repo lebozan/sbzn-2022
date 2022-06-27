@@ -1,0 +1,70 @@
+package rules;
+
+import ftn.sbzn.PoEhelperbackend.model.Tag;
+import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
+import ftn.sbzn.PoEhelperbackend.model.Item;
+import ftn.sbzn.PoEhelperbackend.model.Build;
+
+rule "Cooldown recovery rate belt"
+no-loop true
+when
+    Tag( name== "Trigger")
+    $items: ItemRecommendations(beltSelected == true, beltMods.suffixes.size < 3)
+then
+    $items.getBeltMods().getSuffixes().add("#% increased Cooldown Recovery Rate");
+    System.out.println("boots suffix added");
+end
+
+rule "trap throwing speed"
+no-loop true
+when
+    Tag( name == "Trap")
+    $items: ItemRecommendations( beltSelected == true, beltMods.suffixes.size < 3)
+then
+    $items.getBeltMods().getSuffixes().add("% increased Trap Throwing Speed");
+end
+
+rule "% elemental damage"
+no-loop true
+when
+    $b: Build( damageType == "Elemental" || damageType == "Fire" || damageType == "Cold" || damageType == "Lightning")
+    $items: ItemRecommendations( beltSelected == true, beltMods.prefixes.size < 3)
+then
+    $items.getBeltMods().getPrefixes().add("#% increased Elemental Damage");
+end
+
+rule "% chaos damage"
+no-loop true
+when
+    $b: Build( damageType == "Chaos" || damageType == "Poison")
+    $items: ItemRecommendations( beltSelected == true, beltMods.prefixes.size < 3)
+then
+    $items.getBeltMods().getPrefixes().add("#% increased Chaos Damage");
+end
+
+rule "spell damage during flask"
+no-loop true
+when
+    Tag (name == "Spell")
+    $items: ItemRecommendations( beltSelected == true, beltMods.suffixes.size < 3)
+then
+    $items.getBeltMods().getSuffixes().add("#% increased Spell Damage during any Flask Effect");
+end
+
+rule "projectile damage during flask"
+no-loop true
+when
+    Tag (name == "Projectile")
+    $items: ItemRecommendations( beltSelected == true, beltMods.suffixes.size < 3)
+then
+    $items.getBeltMods().getSuffixes().add("#% increased Projectile Damage during any Flask Effect");
+end
+
+rule "% attributes belt"
+no-loop true
+when
+    $b: Build( archetype == "Intelligence stacking" || archetype == "Dexterity stacking" || archetype == "Strength stacking")
+    $items: ItemRecommendations(beltSelected == true, beltMods.suffixes.size < 3)
+then
+    $items.getBeltMods().getSuffixes().add("#% increased Attributes");
+end

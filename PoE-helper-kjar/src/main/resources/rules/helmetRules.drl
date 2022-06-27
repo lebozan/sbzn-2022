@@ -3,15 +3,123 @@ package rules;
 import ftn.sbzn.PoEhelperbackend.model.Tag;
 import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
 import ftn.sbzn.PoEhelperbackend.model.Item;
+import ftn.sbzn.PoEhelperbackend.model.Build;
+import java.util.ArrayList;
 
 rule "- fire resistance"
+activation-group "- res"
+no-loop true
 when
-	Tag( name == "Fire" )
-	$items: ItemRecommendations( helmetMods.suffixes.size < 3)
+	Build( damageType == "Fire" )
+	$items: ItemRecommendations( helmetMods.suffixes.size < 3, helmetSelected == true)
 
 then
     $items.getHelmetMods().getSuffixes().add("Nearby Enemies have -#% to Fire Resistance");
     System.out.println("helm suffix added");
 end	
 
+rule "- cold resistance"
+activation-group "- res"
+no-loop true
+when
+	Build( damageType == "Cold" )
+	$items: ItemRecommendations( helmetMods.suffixes.size < 3, helmetSelected == true)
 
+then
+    $items.getHelmetMods().getSuffixes().add("Nearby Enemies have -#% to Cold Resistance");
+    System.out.println("helm suffix added");
+end
+
+rule "- lightning resistance"
+activation-group "- res"
+no-loop true
+when
+    Build( damageType == "Lightning" )
+	$items: ItemRecommendations( helmetMods.suffixes.size < 3, helmetSelected == true)
+
+then
+    $items.getHelmetMods().getSuffixes().add("Nearby Enemies have -#% to Lightning Resistance");
+    System.out.println("helm suffix added");
+end
+
+rule "- chaos resistance"
+activation-group "- res"
+no-loop true
+when
+	Build( damageType == "Chaos" )
+	$items: ItemRecommendations( helmetMods.suffixes.size < 3, helmetSelected == true)
+
+then
+    $items.getHelmetMods().getSuffixes().add("Nearby Enemies have -#% to Chaos Resistance");
+    System.out.println("helm suffix added");
+end
+
+
+rule "increased physical damage taken"
+activation-group "- res"
+no-loop true
+when
+	Build( damageType == "Physical" )
+	$items: ItemRecommendations( helmetMods.suffixes.size < 3, helmetSelected == true)
+
+then
+    $items.getHelmetMods().getSuffixes().add("Nearby Enemies take #% increased Physical Damage");
+    System.out.println("helm suffix added");
+end
+
+
+rule "unleash +1"
+no-loop true
+when
+    $items: ItemRecommendations( helmetMods.prefixes.size < 3, helmetSelected == true)
+    $build: Build( supportGems contains "Unleash Support")
+
+then
+    $items.getHelmetMods().getPrefixes().add("Skills supported by Unleash have +1 to maximum number of Seals");
+    System.out.println("helmet prefix added");
+end
+
+
+rule "crit multi"
+no-loop true
+when
+    Tag( name == "Critical")
+    $items: ItemRecommendations( helmetSelected == true, helmetMods.suffixes.size < 3)
+
+then
+    $items.getHelmetMods().getSuffixes().add("#% to Global Critical Strike Multiplier");
+    System.out.println("helmet suffix added");
+end
+
+rule "power charge"
+no-loop true
+when
+    Tag (name == "Critical")
+    $items: ItemRecommendations(helmetSelected == true, helmetMods.prefixes.size < 3)
+then
+    $items.getHelmetMods().getPrefixes().add("+1 to Maximum Power Charges");
+    System.out.println("helmet prefix added");
+end
+
+rule "% and flat int"
+salience 20
+no-loop true
+when
+    $build: Build(archetype == "Intelligence stacking")
+    $items: ItemRecommendations( helmetSelected == true, helmetMods.suffixes.size < 2)
+then
+    $items.getHelmetMods().getSuffixes().add("#% increased Intelligence");
+    $items.getHelmetMods().getSuffixes().add("+# to Intelligence");
+    System.out.println("helmet suffixes added");
+end
+
+rule "gain accuracy equal to strength"
+salience 20
+no-loop true
+when
+    $build: Build(archetype == "Strength stacking")
+    $items: ItemRecommendations( helmetSelected == true, helmetMods.suffixes.size < 3)
+then
+    $items.getHelmetMods().getSuffixes().add("Gain Accuracy Rating equal to your Strength");
+    System.out.println("helmet suffixes added");
+end

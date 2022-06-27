@@ -24,10 +24,13 @@ public class Build {
     private Long id;
     private WeaponType weaponType;
     private List<String> mainSkills;
+    private List<String> supportGems;
     private String damageType;
+    private String archetype;
     private Set<String> tags;
 
     public Build() {
         this.mainSkills = new ArrayList<>();
+        this.supportGems = new ArrayList<>();
     }
 }

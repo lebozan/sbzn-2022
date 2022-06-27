@@ -19,7 +19,7 @@ then
 end
 
 rule "Bleed damage type"
-salience 10
+salience 11
 //agenda-group "build"
 when
     not (Tag( name == "Fire" ))
@@ -36,11 +36,11 @@ then
 end
 
 rule "Poison damage type"
-salience 10
+salience 11
 //agenda-group "build"
 when
     Tag( name == "Chaos")
-    Tag(name == "Duration")
+    Tag( name == "Duration")
     $b: Build()
 then
     $b.setDamageType("Poison");
@@ -48,8 +48,32 @@ then
     System.out.println($b.getDamageType());
 end
 
+rule "elemental damage type"
+salience 12
+when
+    Tag( name == "Fire")
+    Tag( name == "Cold")
+    Tag( name == "Lightning")
+    $b: Build()
+then
+    $b.setDamageType("Elemental");
+    update($b);
+    System.out.println("Damage type: elemental");
+end
+
+rule "chaos damage type"
+salience 12
+when
+    Tag( name == "Chaos")
+    $b: Build()
+then
+    $b.setDamageType("Chaos");
+    update($b);
+    System.out.println("Damage type: chaos");
+end
+
 rule "Fire damage type"
-salience 10
+salience 13
 //agenda-group "build"
 when
     Tag(name == "Fire")
@@ -62,7 +86,7 @@ end
 
 
 rule "Cold damage type"
-salience 10
+salience 14
 //agenda-group "build"
 when
     Tag( name == "Cold")
@@ -75,7 +99,7 @@ end
 
 
 rule "Lightning damage type"
-salience 10
+salience 15
 //agenda-group "build"
 when
     Tag( name == "Lightning")
@@ -99,14 +123,14 @@ then
 end
 
 
-//rule "Ailment tag"
-//salience 10
-////agenda-group "build"
-//when
-//    Tag(name == "Physical" || name == "Cold" || name == "Fire" || name == "Chaos")
-//    Tag(name == "Duration")
-//then
-//    insert(new Tag("Ailment"));
-//end
+rule "Ailment tag"
+salience 10
+//agenda-group "build"
+when
+    Tag(name == "Physical" || name == "Cold" || name == "Fire" || name == "Chaos")
+    Tag(name == "Duration")
+then
+    insert(new Tag("Ailment"));
+end
 
 

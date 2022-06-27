@@ -6,6 +6,7 @@ import org.kie.api.runtime.KieContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,4 +47,5 @@ public class SkillGemService {
     public List<SkillGem> getAllSupportGems() {
         return skillGemRepository.findAllByClassId("Support Skill Gem");
     }
+
 }

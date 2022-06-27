@@ -18,4 +18,6 @@ public class FirstEntryDTO {
 
     private WeaponType weaponType;
 
+    private String buildType;
+
 }

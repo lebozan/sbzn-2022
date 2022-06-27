@@ -1,0 +1,134 @@
+package rules;
+
+import ftn.sbzn.PoEhelperbackend.model.Tag;
+import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
+import ftn.sbzn.PoEhelperbackend.model.Item;
+import ftn.sbzn.PoEhelperbackend.model.Build;
+
+rule "% attributes"
+no-loop true
+when
+    $b: Build( archetype == "Intelligence stacking" || archetype == "Dexterity stacking" || archetype == "Strength stacking")
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% increased Attributes");
+end
+
+rule "% intelligence"
+no-loop true
+when
+    $b: Build( archetype == "Intelligence stacking" )
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% increased Intelligence");
+end
+
+rule "% dexterity"
+no-loop true
+when
+    $b: Build( archetype == "Dexterity stacking" )
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% increased Dexterity");
+end
+
+rule "% strength"
+no-loop true
+when
+    $b: Build( archetype == "Strength stacking")
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% increased Strength");
+end
+
+rule "%damage per int"
+no-loop true
+when
+    $b: Build( archetype == "Intelligence stacking" )
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.prefixes.size < 3)
+then
+    $items.getAmuletMods().getPrefixes().add("1% increased Damage per 15 Intelligence");
+end
+
+rule "%damage per dex"
+no-loop true
+when
+    $b: Build( archetype == "Dexterity stacking" )
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.prefixes.size < 3)
+then
+    $items.getAmuletMods().getPrefixes().add("1% increased Damage per 15 Dexterity");
+end
+
+rule "%damage per str"
+no-loop true
+when
+    $b: Build( archetype == "Strength stacking" )
+    $items: ItemRecommendations(amuletSelected == true, amuletMods.prefixes.size < 3)
+then
+    $items.getAmuletMods().getPrefixes().add("1% increased Damage per 15 Strength");
+end
+
+
+rule "fire dot multi amulet"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Fire")
+    $items: ItemRecommendations( amuletSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% to Fire Damage over Time Multiplier");
+
+end
+
+rule "cold dot multi amulet"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Cold")
+    $items: ItemRecommendations( amuletSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% to Cold Damage over Time Multiplier");
+
+end
+
+rule "phys dot multi amulet"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Physical" || damageType == "Bleed")
+    $items: ItemRecommendations( amuletSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% to Physical Damage over Time Multiplier");
+
+end
+
+rule "chaos dot multi amulet"
+no-loop true
+when
+    Tag( name == "Ailment")
+    $b: Build( damageType == "Chaos" || damageType == "Poison")
+    $items: ItemRecommendations( amuletSelected == true, glovesMods.suffixes.size < 3)
+then
+    $items.getAmuletMods().getSuffixes().add("#% to Chaos Damage over Time Multiplier");
+
+end
+
+
+rule "ele pen"
+no-loop true
+when
+    $b: Build( damageType == "Elemental" || damageType == "Fire" || damageType == "Cold" || damageType == "Lightning")
+    not Tag( name == "Ailment")
+    $items: ItemRecommendations( amuletSelected == true, glovesMods.prefixes.size < 3)
+then
+    $items.getAmuletMods().getPrefixes().add("Damage Penetrates #% Elemental Resistances");
+end
+
+rule "+1 all skills"
+no-loop true
+when
+    Tag( name == "Spell")
+    $items: ItemRecommendations( amuletSelected == true, amuletMods.prefixes.size < 3)
+then
+    $items.getAmuletMods().getPrefixes().add("+1 to Level of all Skill Gems");
+end

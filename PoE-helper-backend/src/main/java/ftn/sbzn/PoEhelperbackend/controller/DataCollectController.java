@@ -104,6 +104,16 @@ public class DataCollectController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/activeNonAuraGems")
+    public ResponseEntity<List<GemDTO>> getAllNonAuraActiveSkillGems() {
+//        List<SkillGem> gems = skillGemService.getAllNonAuraActiveGems();
+        List<SkillGem> gems = skillGemService.getAllActiveGems();
+        List<SkillGem> nonAuraGems = gems.stream().filter(gem -> !gem.getGemTags().contains("Aura"))
+                .collect(Collectors.toList());
+        List<GemDTO> dtos = nonAuraGems.stream().map(mapper::gemToDTO).collect(Collectors.toList());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/supportGems")
     public ResponseEntity<List<GemDTO>> getAllSupportSkillGems() {
         List<SkillGem> gems = skillGemService.getAllSupportGems();

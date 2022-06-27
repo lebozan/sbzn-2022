@@ -11,6 +11,8 @@ import ftn.sbzn.PoEhelperbackend.service.BuildService;
 import ftn.sbzn.PoEhelperbackend.service.KeystoneService;
 import ftn.sbzn.PoEhelperbackend.service.SequenceGeneratorService;
 import ftn.sbzn.PoEhelperbackend.service.SkillGemService;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieScanner;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.AgendaFilter;
@@ -47,16 +49,25 @@ public class UserInputController {
 
     @PostMapping(value = "/firstEntry")
     public ResponseEntity<?> firstEntry(@RequestBody FirstEntryDTO firstEntryDTO) {
-        KieSession kieSession = kieContainer.newKieSession("ksession-rules");
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks
+                .newKieContainer(ks.newReleaseId("sbnz.projekat", "poe-helper-kjar", "0.0.1-SNAPSHOT"));
+        KieScanner kScanner = ks.newKieScanner(kContainer);
+        kScanner.start(10_000);
+        KieSession kieSession = kContainer.newKieSession("ksession-rules");
         try {
             Build newBuild = new Build();
             newBuild.setId(sequenceGeneratorService.generateSequence(Build.SEQUENCE_NAME));
             newBuild.setWeaponType(firstEntryDTO.getWeaponType());
+            newBuild.setArchetype(firstEntryDTO.getBuildType());
             for (String gem : firstEntryDTO.getSkillSetup()) {
                 Optional<SkillGem> skillGem = skillGemService.getByName(gem);
                 SkillGem sg = skillGem.orElseThrow();
                 if (sg.getClassId().equals("Active Skill Gem")) {
                     newBuild.getMainSkills().add(sg.getName());
+                }
+                if (sg.getClassId().equals("Support Skill Gem")) {
+                    newBuild.getSupportGems().add(sg.getName());
                 }
 
                 for (String tag : sg.getGemTags()) {
@@ -88,7 +99,12 @@ public class UserInputController {
 
     @PostMapping(value = "/secondEntry")
     public ResponseEntity<ItemRecommendations> secondEntry(@RequestBody SecondEntryDTO secondEntry) {
-        KieSession kieSession = kieContainer.newKieSession("ksession-rules");
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks
+                .newKieContainer(ks.newReleaseId("sbnz.projekat", "poe-helper-kjar", "0.0.1-SNAPSHOT"));
+        KieScanner kScanner = ks.newKieScanner(kContainer);
+        kScanner.start(10_000);
+        KieSession kieSession = kContainer.newKieSession("ksession-rules");
         ItemRecommendations itemRecommendations = new ItemRecommendations();
         for (String item: secondEntry.getSelectedEquipment()) {
             if (item.equals("helmet")) {

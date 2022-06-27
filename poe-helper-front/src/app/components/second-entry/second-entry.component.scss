@@ -12,6 +12,10 @@
   color: lightyellow;
 }
 
+mat-label {
+  color: white;
+}
+
 //.selected-area {
 //  background: cornflowerblue;
 //}
@@ -20,9 +24,27 @@
 //}
 //
 //div {
-//  position: absolute;
+//  position: absolute;y
+
 //  height: 360px;
 //  width: 170px;
 //  top: 52px;
 //  left: 45px;
 //}
+
+rect.hoverable
+{
+  fill: transparent;
+  stroke:gray; /* Replace with none if you like */
+  stroke-width: 4;
+  cursor: pointer;
+}
+
+rect.hoverable:hover
+{
+  stroke:black;
+}
+
+rect.selected {
+  stroke:greenyellow;
+}

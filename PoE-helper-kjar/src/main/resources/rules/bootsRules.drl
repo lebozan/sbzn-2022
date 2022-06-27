@@ -1,0 +1,97 @@
+package rules;
+
+import ftn.sbzn.PoEhelperbackend.model.Tag;
+import ftn.sbzn.PoEhelperbackend.model.ItemRecommendations;
+import ftn.sbzn.PoEhelperbackend.model.Item;
+import ftn.sbzn.PoEhelperbackend.model.Build;
+
+
+rule "Cooldown recovery rate boots"
+no-loop true
+when
+    Tag( name== "Trigger")
+    $items: ItemRecommendations(bootsSelected == true, bootsMods.suffixes.size < 3)
+then
+    $items.getBootsMods().getSuffixes().add("#% increased Cooldown Recovery Rate");
+    System.out.println("boots suffix added");
+end
+
+rule "phys as extra fire"
+no-loop true
+when
+    Tag( name == "Physical")
+    $b: Build(damageType == "Fire")
+    $items: ItemRecommendations( bootsSelected == true, bootsMods.prefixes.size < 3)
+then
+    $items.getBootsMods().getPrefixes().add("Gain #% of Physical Damage as Extra Fire Damage");
+    System.out.println("boots prefix added");
+end
+
+rule "phys as extra cold"
+no-loop true
+when
+    Tag( name == "Physical")
+    $b: Build(damageType == "Cold")
+    $items: ItemRecommendations( bootsSelected == true, bootsMods.prefixes.size < 3)
+then
+    $items.getBootsMods().getPrefixes().add("Gain #% of Physical Damage as Extra Cold Damage");
+    System.out.println("boots prefix added");
+end
+
+rule "phys as extra lightning"
+no-loop true
+when
+    Tag( name == "Physical")
+    $b: Build(damageType == "Lightning")
+    $items: ItemRecommendations( bootsSelected == true, bootsMods.prefixes.size < 3)
+then
+    $items.getBootsMods().getPrefixes().add("Gain #% of Physical Damage as Extra Lightning Damage");
+    System.out.println("boots prefix added");
+end
+
+rule "elusive on crit"
+no-loop true
+when
+    Tag( name == "Critical")
+    $items: ItemRecommendations(bootsSelected == true, bootsMods.prefixes.size < 3)
+then
+    $items.getBootsMods().getPrefixes().add("#% chance to gain Elusive on Critical Strike");
+    System.out.println("boots prefix added");
+end
+
+rule "tailwind"
+no-loop true
+when
+    Tag( name == "Critical")
+    $items: ItemRecommendations(bootsSelected == true, bootsMods.suffixes.size < 3)
+then
+    $items.getBootsMods().getPrefixes().add("You have Tailwind if you have dealt a Critical Strike Recently");
+    System.out.println("boots suffix added");
+end
+
+rule "bleed faster"
+no-loop true
+when
+    $b: Build(damageType == "Bleed")
+    $items: ItemRecommendations( bootsSelected == true, bootsMods.suffixes.size < 3)
+then
+    $items.getBootsMods().getSuffixes().add("Bleeding you inflict deal Damage #% faster");
+end
+
+rule "ignite faster"
+no-loop true
+when
+    $b: Build(damageType == "Ignite")
+    $items: ItemRecommendations( bootsSelected == true, bootsMods.suffixes.size < 3)
+then
+    $items.getBootsMods().getSuffixes().add("Ignites you inflict deal Damage #% faster");
+end
+
+rule "poison faster"
+no-loop true
+when
+    $b: Build(damageType == "Poison")
+    $items: ItemRecommendations( bootsSelected == true, bootsMods.suffixes.size < 3)
+then
+    $items.getBootsMods().getSuffixes().add("Poisons you inflict deal Damage #% faster");
+end
